@@ -16,7 +16,40 @@
     * {
       box-sizing: border-box;
     }
+<script>
+  console.log("🌿 Leaf animation initialized");
 
+  const isMobile = window.innerWidth < 600;
+  const numLeaves = isMobile ? 10 : 25;
+
+  for (let i = 0; i < numLeaves; i++) {
+    const leaf = document.createElement("div");
+    leaf.className = "leaf";
+
+    // Случайные параметры для естественности
+    const size = 20 + Math.random() * 40;
+    const duration = 5 + Math.random() * 10;
+    const delay = Math.random() * 5;
+    const left = Math.random() * 100;
+
+    leaf.style.width = `${size}px`;
+    leaf.style.height = `${size}px`;
+    leaf.style.left = `${left}vw`;
+    leaf.style.animationDuration = `${duration}s`;
+    leaf.style.animationDelay = `${delay}s`;
+    leaf.style.opacity = (0.4 + Math.random() * 0.6).toFixed(2);
+
+    // Проверка на наличие изображения
+    const img = new Image();
+    img.src = "leaf.png";
+    img.onerror = () => {
+      leaf.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 16 16"><path d="M8 0C4 1 0 4 0 8s4 8 8 8 8-4 8-8-4-7-8-8z"/></svg>')`;
+      console.warn("⚠️ leaf.png не найден, подставлена SVG-листик");
+    }
+
+    document.body.appendChild(leaf);
+  }
+</script>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
