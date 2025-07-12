@@ -109,28 +109,33 @@
       width: 100%;
     }
 
-    /* 🍂 Листья (анимация) */
+    /* 🍂 Листья (новая анимация) */
     .leaf {
       position: fixed;
       top: -50px;
-      width: 30px;
-      height: 30px;
-      background-image: url('leaf.png'); /* ← твоё изображение */
+      background-image: url('leaf.png'); /* Замените на свой путь */
       background-size: cover;
-      animation: fall linear infinite;
+      pointer-events: none;
       opacity: 0.8;
       z-index: 0;
+      animation: fall linear infinite, drift ease-in-out infinite;
     }
 
     @keyframes fall {
       0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 0.9;
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
       }
       100% {
         transform: translateY(110vh) rotate(360deg);
         opacity: 0;
       }
+    }
+
+    @keyframes drift {
+      0% { transform: translateX(0px); }
+      50% { transform: translateX(30px); }
+      100% { transform: translateX(0px); }
     }
 
     @media (max-width: 600px) {
@@ -163,22 +168,28 @@
       <div class="preview" title="Снежная" style="background-image: url('https://images.unsplash.com/photo-1700177710370-30f3f01a7266?auto=format&fit=crop&w=300&q=60')" onclick="applyPreset(3)"></div>
     </div>
 
-    <!-- 🎵 Ваша музыка -->
     <audio autoplay loop controls>
       <source src="dota-2-main-menu-flute-theme.mp3" type="audio/mpeg" />
     </audio>
   </div>
 
-  <!-- 🍂 Листья JS -->
   <script>
     const isMobile = window.innerWidth < 600;
-    const numLeaves = isMobile ? 10 : 20;
+    const numLeaves = isMobile ? 10 : 25;
+
     for (let i = 0; i < numLeaves; i++) {
       const leaf = document.createElement("div");
       leaf.classList.add("leaf");
+
+      const size = Math.random() * 20 + 20; // 20px to 40px
+      leaf.style.width = `${size}px`;
+      leaf.style.height = `${size}px`;
+
       leaf.style.left = Math.random() * 100 + "vw";
-      leaf.style.animationDuration = (5 + Math.random() * 5) + "s";
+      leaf.style.animationDuration = (5 + Math.random() * 5) + "s"; // fall speed
       leaf.style.animationDelay = Math.random() * 5 + "s";
+      leaf.style.opacity = Math.random() * 0.6 + 0.4;
+
       document.body.appendChild(leaf);
     }
 
